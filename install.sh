@@ -27,7 +27,7 @@ r = requests.get(url).json()
 if 'message' in r:
         exit()
 for asset in r['assets']:
-        if asset['name'].endswith('vdi.gz'):
+        if asset['name'].endswith('nuc-2.10.img.gz'):
                 print(asset['browser_download_url'])
 EOF
 ) && \
@@ -51,7 +51,7 @@ echo -e "\n\n\n" \
         "*       Creating new VM        *\n" \
         "********************************\n" && \
 qm create $VMID -bios ovmf -bootdisk sata0 -efidisk0 ${VM_STORAGE}:vm-${VMID}-disk-0,size=128K \
-        -name $(sed -e "s/\_//g" -e "s/.vdi.gz//" <<< $FILE) -net0 virtio,bridge=vmbr0 \
+        -name $(sed -e "s/\_//g" -e "s/.img.gz//" <<< $FILE) -net0 virtio,bridge=vmbr0 \
         -onboot 1 -ostype l26 -sata0 ${VM_STORAGE}:vm-${VMID}-disk-1,size=6G \
         -scsihw virtio-scsi-pci && \
 pvesm alloc $VM_STORAGE $VMID vm-${VMID}-disk-0 128 1>&/dev/null && \
